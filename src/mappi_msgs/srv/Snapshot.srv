@@ -1,0 +1,12 @@
+# Snapshot service definition
+
+# No parameters
+# A request causes a snapshot to be made
+
+---
+# Result code
+#
+# 0: success
+# 1: LIDAR data stale or missing
+# Other values to be determined
+uint8 result
