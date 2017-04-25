@@ -9,7 +9,7 @@
   <!-- Piccolo Laser Distance Sensor (XV-11) -->
   <node name="xv11" pkg="xv_11_laser_driver" type="neato_laser_publisher">
     <param name="firmware_version" value="2" />
-    <param name="port" value="/home/samcrow/Documents/475/workspace/xv11" />
+    <param name="port" value="TODO" />
     <param name="frame_id" value="laser" />
   </node>
 
