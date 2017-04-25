@@ -10,7 +10,7 @@
     args="0 0 0 0 0 0 1 /map /base_link" /> -->
 
   <!-- Play from bag -->
-  <node name="bag" pkg="rosbag" type="play" args="--clock ./bagfiles/Mapping1.bag /base_pose_ground_truth:=/odom /base_scan:=/scan" />
+  <node name="bag" pkg="rosbag" type="play" args="--clock $(env PWD)/bagfiles/Mapping1.bag /base_pose_ground_truth:=/odom /base_scan:=/scan" />
 
   <!-- Laser scan matcher (SLAM) -->
   <node name="scan_matcher" pkg="laser_scan_matcher" type="laser_scan_matcher_node">
