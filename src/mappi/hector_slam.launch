@@ -7,7 +7,7 @@
     args="0 0 0.05 0 0 0 1 /base_link /base_laser_link" />
 
   <!-- Play from bag -->
-  <node name="bag" pkg="rosbag" type="play" args="/home/samcrow/Documents/475/workspace/src/mappi/Mapping1.bag /base_pose_ground_truth:=/odom /base_scan:=/scan" />
+  <node name="bag" pkg="rosbag" type="play" args="./bagfiles/Mapping1.bag /base_pose_ground_truth:=/odom /base_scan:=/scan" />
 
   <!-- SLAM -->
   <node name="slam" pkg="hector_mapping" type="hector_mapping">
