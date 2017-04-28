@@ -1,0 +1,24 @@
+<!-- Reads LIDAR and IMU data and records them to a bag file -->
+<launch>
+
+  <param name="robot_description" textfile="Mappi.urdf" />
+
+  <!-- Static transform from base_link to lidar_link -->
+  <node name="lidar_transform" pkg="tf2_ros" type="static_transform_publisher"
+    args="0 0 0.05 0 0 0 1 /base_link /laser" />
+
+  <!-- Piccolo Laser Distance Sensor (XV-11) -->
+  <node name="xv11" pkg="xv_11_laser_driver" type="neato_laser_publisher">
+    <param name="firmware_version" value="2" />
+    <param name="port" value="/dev/serial0" />
+    <param name="frame_id" value="laser" />
+  </node>
+
+  <!-- IMU -->
+  <node name="imu" pkg="bno055_i2c" type="bno055_i2c_node">
+      <param name="i2c_file" value="/dev/i2c-0" />
+  </node>
+
+  <!-- Write to bag -->
+  <!-- <node name="bag" pkg="rosbag" type="record" args="$(env PWD)/bagfiles/lidar_imu_0.bag" /> -->
+</launch>

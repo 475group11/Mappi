@@ -15,14 +15,11 @@ int main(int argc, char** argv) {
     // Parameters
 
     // The I2C device file
-    std::string i2c_file = "/dev/i2c-1";
-    ros::param::get("~i2c_file", i2c_file);
+    std::string i2c_file = ros::param::param<std::string>("~i2c_file", "/dev/i2c-1");
     // The address of the sensor
-    int sensor_address = 0x28;
-    ros::param::get("~sensor_address", sensor_address);
+    int sensor_address = ros::param::param<int>("~sensor_address", 0x28);
     // The frame of reference where the information was measured
-    std::string frame_id = "base_link";
-    ros::param::get("~frame_id", frame_id);
+    std::string frame_id = ros::param::param<std::string>("~frame_id", "base_link");
 
     // Check sensor address
     if ((sensor_address & ~0xFF) != 0) {
