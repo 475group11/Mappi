@@ -9,7 +9,7 @@
 #include "imu.h"
 
 int main(int argc, char** argv) {
-    ros::init(argc, argv, "bno055_i2c");
+    ros::init(argc, argv, "bno055_node");
     ros::NodeHandle handle;
 
     // Parameters
