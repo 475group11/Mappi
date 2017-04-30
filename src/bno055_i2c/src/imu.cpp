@@ -3,6 +3,8 @@
 #include <cmath>
 #include <stdexcept>
 #include <sstream>
+#include <chrono>
+#include <thread>
 
 IMU::IMU(const std::string& path, uint8_t address) :
     _i2c(path),

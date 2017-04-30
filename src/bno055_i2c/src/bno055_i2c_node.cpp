@@ -39,7 +39,6 @@ int main(int argc, char** argv) {
     auto publisher = handle.advertise<sensor_msgs::Imu>("bno055_i2c", 8);
 
     auto send_callback = [frame_id, publisher, &sensor] (const ros::TimerEvent&) {
-        ROS_DEBUG("Running!");
 
         // Send IMU data
         sensor_msgs::Imu imu_data;
@@ -54,7 +53,7 @@ int main(int argc, char** argv) {
         publisher.publish(imu_data);
     };
 
-    ros::Rate loop_rate(1);
+    ros::Rate loop_rate(100);
     auto timer = handle.createTimer(loop_rate.expectedCycleTime(), send_callback);
 
     timer.start();
