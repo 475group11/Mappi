@@ -15,10 +15,10 @@
   </node>
 
   <!-- IMU -->
-  <node name="imu" pkg="bno055_i2c" type="bno055_i2c_node">
-      <param name="i2c_file" value="/dev/i2c-0" />
+  <node name="imu" pkg="bno055_i2c" type="bno055_node">
+      <param name="i2c_file" value="/dev/i2c-1" />
   </node>
 
   <!-- Write to bag -->
-  <!-- <node name="bag" pkg="rosbag" type="record" args="$(env PWD)/bagfiles/lidar_imu_0.bag" /> -->
+  <node name="bag" pkg="rosbag" type="record" args="-O $(env PWD)/bagfiles/lidar_imu_0.bag /scan" />
 </launch>
