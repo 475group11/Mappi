@@ -135,6 +135,7 @@ include_directories(
 # add_executable(${PROJECT_NAME}_node src/xv_11_speed_control_node.cpp)
 
 add_executable(${PROJECT_NAME}_speed_tracking_node src/speed_tracking_node.cpp)
+add_executable(${PROJECT_NAME}_take_back_half_node src/take_back_half_node.cpp src/take_back_half.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -143,6 +144,7 @@ add_executable(${PROJECT_NAME}_speed_tracking_node src/speed_tracking_node.cpp)
 # set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
 
 set_target_properties(${PROJECT_NAME}_speed_tracking_node PROPERTIES OUTPUT_NAME node PREFIX "speed_tracking_")
+set_target_properties(${PROJECT_NAME}_take_back_half_node PROPERTIES OUTPUT_NAME node PREFIX "take_back_half_")
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -150,6 +152,9 @@ set_target_properties(${PROJECT_NAME}_speed_tracking_node PROPERTIES OUTPUT_NAME
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}_speed_tracking_node
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(${PROJECT_NAME}_take_back_half_node
   ${catkin_LIBRARIES}
 )
 
@@ -168,7 +173,7 @@ target_link_libraries(${PROJECT_NAME}_speed_tracking_node
 # )
 
 ## Mark executables and/or libraries for installation
-install(TARGETS ${PROJECT_NAME}_speed_tracking_node
+install(TARGETS ${PROJECT_NAME}_speed_tracking_node ${PROJECT_NAME}_take_back_half_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

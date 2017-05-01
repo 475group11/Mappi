@@ -15,8 +15,8 @@ int main(int argc, char** argv) {
     ros::NodeHandle handle;
 
     // Parameters
-    const auto rpm_in_topic = ros::param::param<std::string>("rpm_in_topic", "rpms");
-    const auto rpm_out_topic = ros::param::param<std::string>("rpm_out_topic", "rpm_filtered");
+    const auto rpm_in_topic = ros::param::param<std::string>("~rpm_in_topic", "rpms");
+    const auto rpm_out_topic = ros::param::param<std::string>("~rpm_out_topic", "rpm_filtered");
 
     // The maximum expected time between incoming speed updates
     const ros::Duration timeout_duration(0.5);
@@ -36,9 +36,14 @@ int main(int argc, char** argv) {
         // Stop and restart the timer, effectively resetting it
         timer.stop();
         timer.start();
+        const auto rpm = message->data;
+        // Ignore messages with speeds that are too high
+        if (rpm > 400) {
+            return;
+        }
         // Convert and send the RPM
         std_msgs::Float64 forward_message;
-        forward_message.data = static_cast<double>(message->data);
+        forward_message.data = static_cast<double>(rpm);
         rpm_publisher.publish(forward_message);
     };
     const auto subscription = handle.subscribe(rpm_in_topic, 0, rpm_callback_t(rpm_callback));

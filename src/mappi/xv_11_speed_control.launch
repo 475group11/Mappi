@@ -20,20 +20,12 @@
     <param name="duty_cycle_topic" value="xv_11_duty_cycle" />
     <param name="pwm_frequency" value="100" />
   </node>
-
-  <!-- PID controller -->
-  <node name="xv_11_pid" pkg="pid" type="controller">
-    <!-- Parameters: Topics -->
-    <param name="topic_from_plant" value="xv_11_rpm_filtered" />
-    <param name="topic_from_controller" value="xv_11_duty_cycle" />
-    <param name="setpoint_topic" value="xv_11_target_rpm" />
-    <!-- Output limits -->
-    <param name="upper_limit" value="1" />
-    <param name="lower_limit" value="0" />
-    <!-- Tuning constants (should all be positive) -->
-    <param name="Kp" value="1.0" />
-    <param name="Ki" value="0.0" />
-    <param name="Kd" value="0.0" />
+  
+  <!-- Take-back-half controller -->
+  <node name="xv_11_take_back_half" pkg="xv_11_speed_control" type="take_back_half_node">
+    <param name="current_speed_topic" value="xv_11_rpm_filtered" />
+    <param name="target_speed_topic" value="xv_11_target_rpm" />
+    <param name="power_output_topic" value="xv_11_duty_cycle" />
+    <param name="gain" value="6.0e-3" />
   </node>
-
 </launch>

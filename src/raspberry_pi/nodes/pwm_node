@@ -1,0 +1,43 @@
+#!/usr/bin/env python
+
+import rospy
+from std_msgs.msg import Float64
+
+import RPi.GPIO as GPIO
+
+# Pin that motor is connected to (must support PWM)
+MOTOR_PIN = 18
+
+def main():
+    rospy.init_node('pwm_node')
+    
+    duty_cycle_topic = rospy.get_param('~duty_cycle_topic', '/pwm_duty_cycle')
+    pwm_frequency = rospy.get_param('~pwm_frequency', 100.0)
+    
+    GPIO.setmode(GPIO.BCM) # Broadcom pin-numbering scheme
+    GPIO.setup(MOTOR_PIN, GPIO.OUT)
+    pwm = GPIO.PWM(MOTOR_PIN, pwm_frequency)
+    pwm.start(0)
+    
+    # Listen for duty cycle messages
+    def message_callback(message):
+    	duty_cycle = message.data
+    	if duty_cycle > 1.0:
+    	    rospy.logwarn('PWM duty cycle %f greater than 1.0, ignoring', duty_cycle)
+    	    return
+        if duty_cycle < 0.0:
+            rospy.logwarn('PWM duty cycle %f less than 0, ignoring', duty_cycle)
+            return
+        # Convert from ratio to percentage
+        pwm.ChangeDutyCycle(duty_cycle * 100.0)
+    
+    rospy.Subscriber(duty_cycle_topic, Float64, message_callback)
+    
+    rospy.spin()
+    # Clean up
+    pwm.stop()
+    GPIO.cleanup()
+
+
+if __name__ == "__main__":
+    main()

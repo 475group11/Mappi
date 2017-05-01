@@ -35,19 +35,19 @@ int main(int argc, char** argv) {
     // Parameters
 
     // The topic to subscribe to for laser scan messages
-    const auto laser_topic = ros::param::param<std::string>("laser_topic", "/laser");
+    const auto laser_topic = ros::param::param<std::string>("~laser_topic", "/laser");
     // The global frame of reference
-    const auto global_frame = ros::param::param<std::string>("global_frame", "/map");
+    const auto global_frame = ros::param::param<std::string>("~global_frame", "/map");
     // Width of the map, meters
-    const auto map_width_m = get_unsigned_param<std::uint32_t>("map_width_m", 10);
+    const auto map_width_m = get_unsigned_param<std::uint32_t>("~map_width_m", 10);
     // Height of the map, meters
-    const auto map_height_m = get_unsigned_param<std::uint32_t>("map_height_m", 10);
+    const auto map_height_m = get_unsigned_param<std::uint32_t>("~map_height_m", 10);
     // Map resolution, cells per meter
-    const auto map_resolution = get_unsigned_param<std::uint32_t>("map_resolution", 100);
+    const auto map_resolution = get_unsigned_param<std::uint32_t>("~map_resolution", 100);
 
     // The maximum age for a scan message before it is considered stale,
     // default 0.1 seconds
-    const ros::Duration max_scan_age(ros::param::param<double>("max_scan_age", 0.1));
+    const ros::Duration max_scan_age(ros::param::param<double>("~max_scan_age", 0.1));
 
     // The last laser scan message that was received, or null if no message
     // has been received
