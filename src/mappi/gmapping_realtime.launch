@@ -1,0 +1,19 @@
+<launch>
+
+  <!-- Include speed control -->
+  <include file="xv_11_speed_control.launch" />
+
+  <param name="robot_description" textfile="Mappi.urdf" />
+
+  <!-- Static transform from base_link to base_laser_link -->
+  <node name="lidar_transform" pkg="tf2_ros" type="static_transform_publisher"
+    args="0 0 -0.05 0 0 0 1 /base_link /laser" />
+  <!-- base_link and odom are the same -->
+  <node name="base_link_odom_transform" pkg="tf2_ros" type="static_transform_publisher"
+    args="0 0 0 0 0 0 1 /odom /base_link" />
+
+  <!-- SLAM -->
+  <node name="slam" pkg="gmapping" type="slam_gmapping">
+    
+  </node>
+</launch>
