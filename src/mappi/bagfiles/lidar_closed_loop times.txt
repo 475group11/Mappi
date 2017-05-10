@@ -1,0 +1,7 @@
+Times in lidar_closed_loop.bag:
+
+Entering hallway: 57 seconds
+Leaving hallway: 126 seconds
+
+Entering room: 126 seconds
+Leaving room: 175 seconds

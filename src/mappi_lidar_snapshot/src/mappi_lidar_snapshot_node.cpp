@@ -6,6 +6,8 @@
 #include <nav_msgs/OccupancyGrid.h>
 #include <mappi_msgs/Snapshot.h>
 
+#include "mapper.h"
+
 typedef boost::function<bool (mappi_msgs::Snapshot::Request&, mappi_msgs::Snapshot::Response&)> handler_callback_t;
 typedef boost::function<void (const sensor_msgs::LaserScan::ConstPtr&)> laser_callback_t;
 
