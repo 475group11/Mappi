@@ -1,0 +1,14 @@
+Times in lidar_closed_loop.bag:
+
+Entering hallway: 57 seconds
+Leaving hallway: 126 seconds
+
+Entering room: 126 seconds
+Leaving room: 175 seconds
+
+Times in lidar_closed_loop_2.bag:
+
+1. Small room, normal walk: 115 to 145 seconds
+2. Small room, not changing sensor orientation: 152 to 187 seconds
+3. Large room, normal walk: 213 to 253 seconds
+4. Large room, not changing sensor orientation: 256 to 306 seconds
