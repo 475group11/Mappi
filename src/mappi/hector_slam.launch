@@ -7,7 +7,7 @@
     args="0 0 0.05 0 0 0 1 /base_link /laser" />
 
   <!-- Play from bag -->
-  <node name="bag" pkg="rosbag" type="play" args="--clock --start 57 --duration 70 $(env PWD)/bagfiles/lidar_closed_loop.bag" />
+  <node name="bag" pkg="rosbag" type="play" args="--clock --start 256 --duration 38 $(env PWD)/bagfiles/lidar_zero_attitude.bag" />
 
   <!-- SLAM -->
   <node name="slam" pkg="hector_mapping" type="hector_mapping">
