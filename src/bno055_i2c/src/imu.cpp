@@ -1,16 +1,15 @@
 #include "imu.h"
 #include "imu_private.h"
+#include "imu_transport.h"
 #include <cmath>
 #include <stdexcept>
 #include <sstream>
 #include <chrono>
 #include <thread>
 
-IMU::IMU(const std::string& path, uint8_t address) :
-    _i2c(path),
-    _current_page(0)
+IMU::IMU(IMU::Transport& transport) :
+    _transport(transport)
 {
-    _i2c.set_address(address);
     // Check chip IDs
     check_register(Register::CHIP_ID, BNO_CHIP_ID, "Invalid chip ID");
     check_register(Register::ACC_ID, BNO_ACC_ID, "Invalid accelerometer ID");
@@ -20,7 +19,7 @@ IMU::IMU(const std::string& path, uint8_t address) :
     // Set gyroscope units to radians/second
     auto unit_sel = read_register(Register::UNIT_SEL);
     unit_sel |= 2;
-    write_register(Register::UNIT_SEL, unit_sel);
+    _transport.write_register(Register::UNIT_SEL, unit_sel);
 }
 
 std::uint16_t IMU::software_revision() {
@@ -49,7 +48,7 @@ IMU::OperatingMode IMU::operating_mode() {
 
 void IMU::set_operating_mode(OperatingMode mode) {
     set_page(0);
-    write_register(Register::OPR_MODE, std::uint8_t(mode));
+    _transport.write_register(Register::OPR_MODE, std::uint8_t(mode));
 }
 
 void IMU::set_use_external_oscillator(bool use_external) {
@@ -58,7 +57,7 @@ void IMU::set_use_external_oscillator(bool use_external) {
     if (use_external) {
         value |= 1 << 7;
     }
-    write_register(Register::SYS_TRIGGER, value);
+    _transport.write_register(Register::SYS_TRIGGER, value);
 }
 
 IMU::Calibration IMU::calibration_state() {
@@ -86,8 +85,8 @@ void IMU::remap_axes(Axis fromX, bool invertX, Axis fromY, bool invertY, Axis fr
     if (invertZ) {
         sign |= 1;
     }
-    write_register(Register::AXIS_MAP_CONFIG, map_config);
-    write_register(Register::AXIS_MAP_SIGN, sign);
+    _transport.write_register(Register::AXIS_MAP_CONFIG, map_config);
+    _transport.write_register(Register::AXIS_MAP_SIGN, sign);
     check_register(Register::AXIS_MAP_CONFIG, map_config, "Failed to set axis map");
     check_register(Register::AXIS_MAP_SIGN, sign, "Failed to set axis sign");
 }
@@ -149,7 +148,7 @@ geometry_msgs::Vector3 IMU::angular_velocity() {
 void IMU::set_page(std::uint8_t page) {
     if (page == 0 || page == 1) {
         if (page != _current_page) {
-            write_register(Register::PAGE_ID, page);
+            _transport.write_register(Register::PAGE_ID, page);
             _current_page = page;
         }
     } else {
@@ -160,28 +159,15 @@ void IMU::set_page(std::uint8_t page) {
 std::uint16_t IMU::read_u16(Register start_addr) {
     // less significant, then more significant
     std::uint8_t bytes[2];
-    read_registers(start_addr, bytes, sizeof bytes);
+    _transport.read_registers(start_addr, bytes, sizeof bytes);
     const auto lower = bytes[0];
     const auto upper = bytes[1];
     return std::uint16_t(lower) | (std::uint16_t(upper) << 8);
 }
 
-void IMU::write_register(Register reg_addr, uint8_t value) {
-    const std::uint8_t bytes[] = { std::uint8_t(reg_addr), value };
-    _i2c.write(bytes, 2);
-}
-
-void IMU::read_registers(Register start_addr, std::uint8_t* values, std::size_t length) {
-    // Set address
-    const std::uint8_t reg_u8 = std::uint8_t(start_addr);
-    _i2c.write(&reg_u8, 1);
-    // Read values
-    _i2c.read(values, length);
-}
-
 std::uint8_t IMU::read_register(Register reg_addr) {
     std::uint8_t value;
-    read_registers(reg_addr, &value, 1);
+    _transport.read_registers(reg_addr, &value, 1);
     return value;
 }
 

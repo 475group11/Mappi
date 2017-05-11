@@ -1,6 +1,7 @@
 #ifndef IMU_I2C_H
 #define IMU_I2C_H
 
+#include "imu.h"
 #include "i2c.h"
 #include "imu_transport.h"
 
@@ -8,7 +9,7 @@
  * An I2C transport layer implementation for the IMU
  */
 class IMUI2C : public IMU::Transport {
-
+public:
     /**
      * Creates an I2C connection
      *
@@ -20,14 +21,18 @@ class IMUI2C : public IMU::Transport {
     /**
      * Writes a value to a register on the device
      */
-    virtual void write_register(Register reg_addr, std::uint8_t value);
+    virtual void write_register(IMU::Register reg_addr, std::uint8_t value);
 
     /**
      * Reads one or more consecutive register values starting at the provided
      * address. Stores them in values.
      */
-    virtual void read_registers(Register start_addr, std::uint8_t* values, std::size_t length);
+    virtual void read_registers(IMU::Register start_addr, std::uint8_t* values, std::size_t length);
 
+    virtual ~IMUI2C() = default;
+private:
+    /** The I2C connection */
+    I2C _i2c;
 };
 
 #endif
