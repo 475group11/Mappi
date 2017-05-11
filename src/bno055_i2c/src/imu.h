@@ -22,6 +22,11 @@ class IMU {
 public:
 
     /**
+     * Forward-declare transport interface
+     */
+    class Transport;
+
+    /**
      * Device operating modes
      */
     enum class OperatingMode : std::uint8_t {

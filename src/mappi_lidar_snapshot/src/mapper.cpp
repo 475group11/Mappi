@@ -6,9 +6,9 @@ Mapper::Mapper() :
 
 
     // Set up grid
-    _map.info.resolution = grid_m_per_cell;
-    _map.info.width = grid_width_cells;
-    _map.info.height = grid_height_cells;
+    // _map.info.resolution = grid_m_per_cell;
+    // _map.info.width = grid_width_cells;
+    // _map.info.height = grid_height_cells;
     // Origin is the global origin
     _map.info.origin.position.x = 0;
     _map.info.origin.position.y = 0;
@@ -19,5 +19,5 @@ Mapper::Mapper() :
     _map.info.origin.orientation.w = 0;
     // Fill the grid with uncertainty (-1)
     _map.data.clear();
-    _map.data.resize(grid_width_cells * grid_height_cells, -1);
+    // _map.data.resize(grid_width_cells * grid_height_cells, -1);
 }
