@@ -12,3 +12,7 @@ Times in lidar_closed_loop_2.bag:
 2. Small room, not changing sensor orientation: 152 to 187 seconds
 3. Large room, normal walk: 213 to 253 seconds
 4. Large room, not changing sensor orientation: 256 to 306 seconds
+
+Times in lidar_zero_[].bag:
+
+256 to 294 seconds
