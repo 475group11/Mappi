@@ -129,9 +129,9 @@ static const std::uint8_t BNO_CHIP_ID = 0xA0;
 /** Fixed value of ACC_ID register */
 static const std::uint8_t BNO_ACC_ID = 0xFB;
 /** Fixed value of MAG_ID register */
-static const std::uint8_t BNO_MAG_ID = 0xB2; // Previously 0x32
+static const std::uint8_t BNO_MAG_ID = 0x32;
 /** Fixed value of GYR_ID register */
-static const std::uint8_t BNO_GYR_ID = 0x8F; // Previously 0x0F
+static const std::uint8_t BNO_GYR_ID = 0x0F;
 
 
 }
