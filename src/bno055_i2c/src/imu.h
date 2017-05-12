@@ -20,7 +20,7 @@ public:
      */
     class Transport;
 
-    /** Forward-declare register enum */
+    /** Register addresses */
     enum class Register : std::uint8_t {
         // Page 0
         CHIP_ID = 0x0,
@@ -248,7 +248,7 @@ public:
      * @param transport the transport mechanism to use
      * This transport mechanism must live at least as long as this I2C object.
      */
-    IMU(Transport& transport);
+    explicit IMU(Transport& transport);
 
     /**
      * Returns the revision of the software on the device

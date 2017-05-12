@@ -28,9 +28,8 @@ int main(int argc, char** argv) {
         return -28;
     }
 
-    // Connect to the sensor
-    std::unique_ptr<IMU> sensor;
     try {
+        // Connect to the sensor
         IMUI2C i2c(i2c_file, std::uint8_t(sensor_address));
         IMU sensor(i2c);
         // Advertise

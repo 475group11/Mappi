@@ -140,6 +140,7 @@ add_executable(${PROJECT_NAME}_node
   src/imu_output.cpp
   src/imu.cpp
   src/imu_i2c.cpp
+  src/imu_serial.cpp
 )
 
 ## Rename C++ executable without prefix

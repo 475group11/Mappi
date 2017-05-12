@@ -10,7 +10,7 @@ public:
     /**
      * Creates an I2C interface using the device at the provided path
      */
-    I2C(const std::string& path);
+    explicit I2C(const std::string& path);
 
     /**
      * Closes the I2C interface
@@ -41,6 +41,10 @@ private:
      * An open file descriptor for the I2C device
      */
     int _device_fd;
+
+    // Prevent copying
+    I2C(const I2C&) = delete;
+    I2C& operator = (const I2C&) = delete;
 };
 
 #endif
