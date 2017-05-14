@@ -7,19 +7,42 @@
 #include <chrono>
 #include <thread>
 
+#include <ros/ros.h>
+
 IMU::IMU(IMU::Transport& transport) :
-    _transport(transport)
+    _transport(transport),
+    _current_page(0)
 {
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    // Reset
+    set_page(0);
+    _transport.write_register(Register::SYS_TRIGGER, 1 << 5);
+    ROS_INFO("Resetting sensor");
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     // Check chip IDs
     check_register(Register::CHIP_ID, BNO_CHIP_ID, "Invalid chip ID");
     check_register(Register::ACC_ID, BNO_ACC_ID, "Invalid accelerometer ID");
     check_register(Register::MAG_ID, BNO_MAG_ID, "Invalid magnetometer ID");
     check_register(Register::GYR_ID, BNO_GYR_ID, "Invalid gyroscope ID");
-
+    
+    // Wait 100 ms
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    
+    // Configure
+    set_operating_mode(OperatingMode::Config);
+    set_use_external_oscillator(true);
     // Set gyroscope units to radians/second
     auto unit_sel = read_register(Register::UNIT_SEL);
     unit_sel |= 2;
     _transport.write_register(Register::UNIT_SEL, unit_sel);
+    set_operating_mode(OperatingMode::Ndof);
+    const auto current_status = status();
+    if (current_status == SystemStatus::SystemError) {
+        ROS_ERROR_STREAM("IMU internal error: " << error());
+    }
+    
+    ROS_INFO("IMU configured");
+
 }
 
 std::uint16_t IMU::software_revision() {
@@ -136,6 +159,7 @@ geometry_msgs::Vector3 IMU::angular_velocity() {
     const auto x = std::int16_t(read_u16(Register::GYR_OFFSET_X_LSB));
     const auto y = std::int16_t(read_u16(Register::GYR_OFFSET_Y_LSB));
     const auto z = std::int16_t(read_u16(Register::GYR_OFFSET_Z_LSB));
+    ROS_INFO("Raw Z acceleration %d", z);
     // TODO: Test to determine the correct factor
     const double factor = 1.0;
     geometry_msgs::Vector3 velocity;

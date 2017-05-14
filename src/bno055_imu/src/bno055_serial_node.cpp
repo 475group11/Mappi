@@ -17,6 +17,7 @@ int main(int argc, char** argv) {
     try {
         // Connect to the sensor
         IMUSerial serial(serial_file);
+        ROS_INFO("Serial port open");
         run_bno055_node(handle, serial);
 
         return 0;
