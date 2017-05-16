@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(bno055_i2c)
+project(bno055_imu)
 
 ## Add support for C++11, supported in ROS Kinetic and newer
 add_definitions(-std=c++11)
@@ -122,9 +122,13 @@ include_directories(
 )
 
 ## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/bno055_i2c.cpp
-# )
+add_library(${PROJECT_NAME}
+  src/i2c.cpp
+  src/imu_i2c.cpp
+  src/imu_output.cpp
+  src/imu_serial.cpp
+  src/imu.cpp
+)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -134,25 +138,34 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_node
+add_executable(${PROJECT_NAME}_i2c_node
   src/bno055_i2c_node.cpp
-  src/i2c.cpp
-  src/imu_output.cpp
-  src/imu.cpp
+  src/bno055_node_common.cpp
+)
+add_executable(${PROJECT_NAME}_serial_node
+  src/bno055_serial_node.cpp
+  src/bno055_node_common.cpp
 )
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
 ## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
-set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "bno055_")
+set_target_properties(${PROJECT_NAME}_i2c_node PROPERTIES OUTPUT_NAME i2c_node PREFIX "")
+set_target_properties(${PROJECT_NAME}_serial_node PROPERTIES OUTPUT_NAME serial_node PREFIX "")
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_i2c_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_serial_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(${PROJECT_NAME}_node
+target_link_libraries(${PROJECT_NAME}_i2c_node
+  ${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(${PROJECT_NAME}_serial_node
+  ${PROJECT_NAME}
   ${catkin_LIBRARIES}
 )
 
@@ -171,7 +184,7 @@ target_link_libraries(${PROJECT_NAME}_node
 # )
 
 ## Mark executables and/or libraries for installation
-install(TARGETS ${PROJECT_NAME}_node
+install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_i2c_node ${PROJECT_NAME}_serial_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

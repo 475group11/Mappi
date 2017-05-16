@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>bno055_i2c</name>
+  <name>bno055_imu</name>
   <version>0.0.0</version>
-  <description>Driver for the Bosch BNO055 orientation sensor/IMU, using I2C communication</description>
+  <description>Driver for the Bosch BNO055 orientation sensor/IMU, with support for I2C and serial communication</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
