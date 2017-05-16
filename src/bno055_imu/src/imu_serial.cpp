@@ -70,8 +70,8 @@ IMUSerial::IMUSerial(const std::string& file_path) {
     // Disable 2 stop bits and output flow control
     options.c_cflag &= ~(CSTOPB | CRTSCTS);
     
-    // Set 1 second timeout
-    options.c_cc[VTIME] = 10;
+    // Set 0.5 second timeout
+    options.c_cc[VTIME] = 5;
     options.c_cc[VMIN] = 0;
     if (::tcsetattr(_fd, TCSANOW, &options) != 0) {
         ::close(_fd);

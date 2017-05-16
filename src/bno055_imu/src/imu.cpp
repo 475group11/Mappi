@@ -13,12 +13,6 @@ IMU::IMU(IMU::Transport& transport) :
     _transport(transport),
     _current_page(0)
 {
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    // Reset
-    set_page(0);
-    _transport.write_register(Register::SYS_TRIGGER, 1 << 5);
-    ROS_INFO("Resetting sensor");
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     // Check chip IDs
     check_register(Register::CHIP_ID, BNO_CHIP_ID, "Invalid chip ID");
     check_register(Register::ACC_ID, BNO_ACC_ID, "Invalid accelerometer ID");
@@ -156,12 +150,11 @@ geometry_msgs::Quaternion IMU::orientation() {
 
 geometry_msgs::Vector3 IMU::angular_velocity() {
     set_page(0);
-    const auto x = std::int16_t(read_u16(Register::GYR_OFFSET_X_LSB));
-    const auto y = std::int16_t(read_u16(Register::GYR_OFFSET_Y_LSB));
-    const auto z = std::int16_t(read_u16(Register::GYR_OFFSET_Z_LSB));
-    ROS_INFO("Raw Z acceleration %d", z);
-    // TODO: Test to determine the correct factor
-    const double factor = 1.0;
+    const auto x = std::int16_t(read_u16(Register::GYR_DATA_X_LSB));
+    const auto y = std::int16_t(read_u16(Register::GYR_DATA_Y_LSB));
+    const auto z = std::int16_t(read_u16(Register::GYR_DATA_Z_LSB));
+    // 500 units approximately equal to 1 radian/second
+    const double factor = std::exp2(-9);
     geometry_msgs::Vector3 velocity;
     velocity.x = double(x) * factor;
     velocity.y = double(y) * factor;
