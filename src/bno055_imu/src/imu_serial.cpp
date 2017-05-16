@@ -85,12 +85,17 @@ void IMUSerial::write_register(IMU::Register reg_addr, std::uint8_t value) {
     };
     const auto written = ::write(_fd, request, sizeof request);
     if (written != sizeof request) {
+        ROS_ERROR("Tried to write %d bytes of write command, but could only write %d", sizeof request, written);
         throw_errno("Failed to write");
     }
     // Read response
     std::uint8_t response[2];
     const auto read = ::read(_fd, response, sizeof response);
     if (read != sizeof response) {
+        ROS_ERROR("Tried to read %d bytes of write response, but could only read %d", sizeof response, read);
+        if (read > 0) {
+            ROS_ERROR("First byte read was 0x%x", response[0]);
+        }
         throw_errno("Failed to read response to write");
     }
     if (response[0] != WRITE_ACK_START) {
@@ -111,6 +116,7 @@ void IMUSerial::read_registers(IMU::Register start_addr, std::uint8_t* values, s
     };
     const auto written = ::write(_fd, request, sizeof request);
     if (written != sizeof request) {
+        ROS_ERROR("Tried to write %d bytes of read command, but could only write %d", sizeof request, written);
         throw_errno("Failed to write");
     }
     // Read response: header, length, [length] values
@@ -118,6 +124,7 @@ void IMUSerial::read_registers(IMU::Register start_addr, std::uint8_t* values, s
     // Read the first 2 bytes to check for an error
     const auto first_read = ::read(_fd, response.data(), 2);
     if (first_read != 2) {
+        ROS_ERROR("Tried to read %d bytes of read response, but could only read %d", 2, first_read);
         throw_errno("Failed to read response");
     }
     // Distinguish between error and success
@@ -132,6 +139,7 @@ void IMUSerial::read_registers(IMU::Register start_addr, std::uint8_t* values, s
         // Read the remaining data
         const auto read = ::read(_fd, response.data() + 2, length);
         if (read != length) {
+            ROS_ERROR("Tried to read %d more bytes of read response, but could only read %d", length, read);
             throw_errno("Failed to read whole response");
         }
         // Copy values
