@@ -7,8 +7,10 @@
     args="0 0 0.05 0 0 0 1 /base_link /laser" />
 
   <!-- Play from bag -->
-  <node name="bag" pkg="rosbag" type="play" args="--clock --start 256 --duration 38 $(env PWD)/bagfiles/lidar_zero_attitude.bag" />
-
+  <node name="bag" pkg="rosbag" type="play"
+    args="--clock --start 340 --duration 138 $(env PWD)/bagfiles/mappi_lidar_imu.bag">
+      <remap from="/bno055_i2c" to="/raw_imu" />
+  </node>
   <!-- SLAM -->
   <node name="slam" pkg="hector_mapping" type="hector_mapping">
     <param name="pub_map_odom_transform" value="true"/>

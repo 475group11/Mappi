@@ -16,3 +16,10 @@ Times in lidar_closed_loop_2.bag:
 Times in lidar_zero_attitude.bag:
 
 256 to 294 seconds
+
+Times in mappi_lidar_imu.bag:
+
+130 to 185 seconds
+260 to 292 seconds
+340 to 478 seconds
+525 to 582 seconds

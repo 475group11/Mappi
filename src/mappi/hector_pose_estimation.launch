@@ -1,0 +1,12 @@
+<launch>
+
+
+  <!-- Play from bag -->
+  <node name="bag" pkg="rosbag" type="play"
+    args="--clock --start=130 --duration 55 $(env PWD)/bagfiles/mappi_lidar_imu.bag">
+      <remap from="/bno055_i2c" to="/raw_imu" />
+  </node>
+
+  <node name="localization" pkg="hector_pose_estimation" type="pose_estimation">
+  </node>
+</launch>
