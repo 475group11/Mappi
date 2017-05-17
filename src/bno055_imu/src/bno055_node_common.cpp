@@ -17,11 +17,14 @@ void run_bno055_node(ros::NodeHandle& handle, IMU::Transport& transport) {
     ROS_INFO("Bootloader revision %x", sensor.bootloader_revision());
     ROS_INFO_STREAM("System status " << sensor.status());
     ROS_INFO_STREAM("Error flag " << sensor.error());
-    
+
     // Advertise
     auto publisher = handle.advertise<sensor_msgs::Imu>("bno055_i2c", 8);
 
-    auto send_callback = [frame_id, publisher, &sensor] (const ros::TimerEvent&) {
+    // The last message that was sent
+    sensor_msgs::Imu previous_message;
+
+    auto send_callback = [frame_id, publisher, &sensor, &previous_message] (const ros::TimerEvent&) {
         try {
 	    // Send IMU data
             sensor_msgs::Imu imu_data;
@@ -34,10 +37,10 @@ void run_bno055_node(ros::NodeHandle& handle, IMU::Transport& transport) {
             imu_data.angular_velocity = sensor.angular_velocity();
 
             publisher.publish(imu_data);
+            previous_message = std::move(imu_data);
         } catch (std::exception& e) {
             ROS_WARN("Failed to read data from sensor: %s", e.what());
-        } catch (...) {
-            ROS_WARN("Failed to read data from sensor (unexpected exception type)");
+            publisher.publish(previous_message);
         }
     };
 
