@@ -1,0 +1,27 @@
+<launch>
+
+  <param name="robot_description" textfile="Mappi.urdf" />
+
+  <!-- base_link and base_footprint are the same -->
+  <node name="static_transform" pkg="tf2_ros" type="static_transform_publisher"
+    args="0 0 0 0 0 0 1 /base_footprint /base_link" />
+
+  <!-- Play from bag -->
+  <node name="bag" pkg="rosbag" type="play"
+    args="--start 120 $(env PWD)/bagfiles/mappi_laser_imu_chair.bag">
+    <remap from="imu" to="imu_data" />
+  </node>
+
+  <!-- Pose estimation -->
+  <node name="pose_estimation" pkg="robot_pose_ekf" type="robot_pose_ekf">
+    <param name="output_frame" value="odom"/>
+    <param name="freq" value="30.0"/>
+    <param name="sensor_timeout" value="1.0"/>
+    <param name="odom_used" value="false"/>
+    <param name="imu_used" value="true"/>
+    <param name="vo_used" value="false"/>
+    <param name="debug" value="true"/>
+    <param name="self_diagnose" value="true"/>
+  </node>
+
+</launch>
