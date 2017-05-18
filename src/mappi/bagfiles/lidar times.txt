@@ -29,3 +29,10 @@ Times mappi_lidar_imu_2.bag:
 104 to 135 seconds
 158 to 207 seconds
 230 to 263 seconds
+
+Times in mappi_lidar_imu_chair.bag:
+
+180 to 203 seconds
+219 to 265 seconds
+459 to 482 seconds
+552 to 643 seconds
