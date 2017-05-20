@@ -7,3 +7,7 @@ and enter non-LIDAR mode. In this mode, do not use LIDAR for localization.
 To return to the normal mode: Detect an acceleration that both the IMU and
 LIDAR data reflect
 (or when the LIDAR data show non-zero velocity?)
+(or when the LIDAR reports an acceleration in the opposite direction of its
+initial acceleration, and the IMU reports no acceleration? This would happen
+if the device's velocity did not change, and the LIDAR processing suddenly detected
+a wall and realized that the device was moving.)
