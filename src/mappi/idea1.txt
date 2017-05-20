@@ -1,0 +1,9 @@
+
+Compare acceleration from LIDAR/localization and from IMU
+
+If LIDAR reports an acceleration but IMU does not, assume that LIDAR is wrong,
+and enter non-LIDAR mode. In this mode, do not use LIDAR for localization.
+
+To return to the normal mode: Detect an acceleration that both the IMU and
+LIDAR data reflect
+(or when the LIDAR data show non-zero velocity?)
