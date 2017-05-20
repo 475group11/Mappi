@@ -1,0 +1,23 @@
+Covariance matrix explanation:
+
+Documentation:
+
+# Row-major representation of the 6x6 covariance matrix
+# The orientation parameters use a fixed-axis representation.
+# In order, the parameters are:
+# (x, y, z, rotation about X axis, rotation about Y axis, rotation about Z axis)
+
+[ {x,  x} {x,  y} {x,  z} {x,  rx} {x,  ry} {x,  rz} ]
+[ {y,  x} {y,  y} {y,  z} {y,  rx} {y,  ry} {y,  rz} ]
+[ {z,  x} {x,  y} {z,  z} {z,  rx} {z,  ry} {z,  rz} ]
+[ {rx, x} {rx, y} {rx, z} {rx, rx} {rx, ry} {rx, rz} ]
+[ {ry, x} {ry, y} {ry, z} {rx, rx} {ry, ry} {ry, rz} ]
+[ {rz, x} {rz, y} {rz, z} {rx, rx} {rz, ry} {rz, rz} ]
+
+In the message, the interesting indices are:
+0: {x, x}
+7: {y, y}
+14: {z, z}
+21: {rx, rx}
+28: {ry, ry}
+35: {rz, rz}

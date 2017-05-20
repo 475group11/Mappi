@@ -7,7 +7,7 @@
 
   <!-- Play from bag -->
   <node name="bag" pkg="rosbag" type="play"
-    args="--start 120 $(env PWD)/bagfiles/mappi_laser_imu_chair.bag" />
+    args="--start 180 --duration 23 $(env PWD)/bagfiles/mappi_laser_imu_chair.bag" />
   <!-- SLAM -->
   <node name="slam" pkg="hector_mapping" type="hector_mapping">
     <param name="map_size" value="2048" />
