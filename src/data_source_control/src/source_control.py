@@ -6,12 +6,16 @@ import rospy
 # find anything on ROS answers about how the Bool std_msg
 # defines truthiness in standard python types.                                      
 from std_msgs.msg import Char
+from sensor_msgs.msg import Imu
+
 
 def dead_reckoning():
    
 
 def control():
    pub = rospy.Publisher('control_value', Char)
+   sub_imu = rospy.Subscriber('bno005_serial_node', Imu)
+   sub_lidar = rospy.Subscriber('lidar_accel_node', 
    rospy.init_node('source_control', anonymous=True)
    rate = rospy.Rate(10)
    while not rospy.is_shutdown():
