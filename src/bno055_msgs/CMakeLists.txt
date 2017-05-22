@@ -9,6 +9,7 @@ project(bno055_msgs)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   message_generation
+  std_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -67,6 +68,7 @@ add_message_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
+  std_msgs
 )
 
 ################################################
