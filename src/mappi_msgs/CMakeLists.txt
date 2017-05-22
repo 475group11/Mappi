@@ -50,10 +50,10 @@ find_package(catkin REQUIRED COMPONENTS message_generation)
 # )
 
 ## Generate services in the 'srv' folder
-add_service_files(
-  FILES
-  Snapshot.srv
-)
+# add_service_files(
+#   FILES
+#   Snapshot.srv
+# )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
