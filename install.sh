@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Installs the mappi_inverse_laser_transform package
-cd `dirname $0`
+# Installs the packages in the workspace located in the current directory
 
 DEST='/opt/ros/kinetic'
 SRC='install'
 
-cp -rf $SRC/lib/mappi_inverse_laser_transform $DEST/lib
-cp -rf $SRC/share/mappi_inverse_laser_transform $DEST/share
+cp -rf $SRC/include/* $DEST/include
+cp -rf $SRC/lib/* $DEST/lib
+cp -rf $SRC/share/* $DEST/share
