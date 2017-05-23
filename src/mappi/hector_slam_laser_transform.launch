@@ -16,5 +16,16 @@
     <param name="base_frame" value="base_link" />
     <param name="odom_frame" value="base_link" />
     <param name="map_update_distance_thresh" value="0.1" />
+
+    <!-- Rename /map to /current_map and /dynamic_map to /map for compatibility
+    with the GeoTIFF node -->
+    <remap from="map" to="current_map" />
+    <remap from="dynamic_map" to="map" />
   </node>
+
+  <!-- GeoTIFF export -->
+  <node name="geotiff" pkg="hector_geotiff" type="geotiff_node">
+    <param name="map_file_path" value="$(env PWD)" />
+  </node>
+
 </launch>

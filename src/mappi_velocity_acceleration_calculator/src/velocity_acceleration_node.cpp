@@ -87,7 +87,7 @@ int main(int argc, char** argv) {
             last_position = std::move(position);
 
         } catch (tf2::TransformException& e) {
-            ROS_ERROR("Failed to get transform: %s", e.what());
+            ROS_WARN("Failed to get transform: %s", e.what());
         }
     };
 
