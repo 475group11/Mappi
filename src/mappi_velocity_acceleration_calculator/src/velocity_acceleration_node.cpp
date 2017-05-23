@@ -6,8 +6,7 @@
 #include <ros/ros.h>
 #include <tf2_ros/transform_listener.h>
 #include <geometry_msgs/TransformStamped.h>
-#include <geometry_msgs/Transform.h>
-#include <geometry_msgs/Twist.h>
+#include <geometry_msgs/Vector3.h>
 #include <mappi_msgs/PositionVelocityAcceleration.h>
 
 namespace {
