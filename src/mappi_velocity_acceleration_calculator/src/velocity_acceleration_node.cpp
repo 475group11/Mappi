@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 
 #include <boost/optional.hpp>
 
@@ -73,6 +74,9 @@ int main(int argc, char** argv) {
 
                     // Publish result
                     mappi_msgs::PositionVelocityAcceleration pva;
+                    pva.header.stamp = transform_stamped.header.stamp;
+                    pva.header.frame_id = parent_frame;
+                    pva.child_frame_id = child_frame;
                     pva.position = position;
                     pva.velocity = velocity;
                     pva.acceleration = std::move(acceleration);
@@ -87,7 +91,7 @@ int main(int argc, char** argv) {
         }
     };
 
-    auto timer = handle.createTimer(rate.cycleTime(), timer_callback);
+    auto timer = handle.createTimer(rate.expectedCycleTime(), timer_callback);
     timer.start();
     ros::spin();
     return 0;
