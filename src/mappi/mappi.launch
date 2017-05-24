@@ -2,7 +2,8 @@
 Primary Mappi launch file
 
 Requires other components to publish LaserScan messages on the /scan topic
-and IMU messages on the /imu topic.
+and IMU messages on the /imu topic. Messages on both of these topic should be
+in the base_link frame.
 
 -->
 <launch>
