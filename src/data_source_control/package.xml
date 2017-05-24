@@ -41,7 +41,7 @@
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
   <!-- TODO: Dependencies -->
-
+  <run_depend>mappi_msgs</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
