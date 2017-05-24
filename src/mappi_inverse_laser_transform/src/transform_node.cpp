@@ -8,41 +8,40 @@
 typedef boost::function<void (const sensor_msgs::Imu::ConstPtr&)> imu_callback_t;
 
 /**
- * Reads yaw from an IMU topic, and publishes a transform from [the frame the
- * IMU data are in] to another frame with no translation and equal orientation.
+ * Reads yaw from an IMU topic, and publishes a transform from a parent frame
+ * to a child frame with no translation and the orientation of the IMU.
  *
- * This significantly reduces the rotation of [the frame the IMU data are in]
- * and allows the laser frame to rotate.
+ * This significantly reduces the rotation of the parent frame
+ * and allows the child frame to rotate.
  */
 int main(int argc, char** argv) {
     ros::init(argc, argv, "transform_node");
     ros::NodeHandle handle;
 
-    // The laser frame to publish a transform to
-    const auto laser_frame = ros::param::param<std::string>("~laser_frame", "laser");
+    const auto parent_frame = ros::param::param<std::string>("~parent_frame", "base_link");
+    const auto child_frame = ros::param::param<std::string>("~child_frame", "laser");
 
     // Broadcast transform
     tf2_ros::TransformBroadcaster broadcaster;
 
-    const auto imu_callback = [broadcaster, laser_frame]
+    const auto imu_callback = [broadcaster, parent_frame, child_frame]
         (const sensor_msgs::Imu::ConstPtr& imu_data) mutable {
         // Publish orientation
-        geometry_msgs::TransformStamped inverse;
-        inverse.header.stamp = imu_data->header.stamp;
-        inverse.header.frame_id = imu_data->header.frame_id;
-        inverse.child_frame_id = laser_frame;
+        geometry_msgs::TransformStamped transform;
+        transform.header.stamp = imu_data->header.stamp;
+        transform.header.frame_id = parent_frame;
+        transform.child_frame_id = child_frame;
         // Transform: no translation, orientation equal to the IMU orientation
         auto imu_orientation = tf2::Quaternion(imu_data->orientation.x,
                                                 imu_data->orientation.y,
                                                 imu_data->orientation.z,
                                                 imu_data->orientation.w);
         imu_orientation.normalize();
-        inverse.transform.rotation.x = imu_orientation.getX();
-        inverse.transform.rotation.y = imu_orientation.getY();
-        inverse.transform.rotation.z = imu_orientation.getZ();
-        inverse.transform.rotation.w = imu_orientation.getW();
-
-        broadcaster.sendTransform(inverse);
+        transform.transform.rotation.x = imu_orientation.getX();
+        transform.transform.rotation.y = imu_orientation.getY();
+        transform.transform.rotation.z = imu_orientation.getZ();
+        transform.transform.rotation.w = imu_orientation.getW();
+        broadcaster.sendTransform(transform);
     };
 
     const auto subscription = handle.subscribe("imu", 16, imu_callback_t(imu_callback));
