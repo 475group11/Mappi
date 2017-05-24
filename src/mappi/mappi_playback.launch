@@ -1,0 +1,7 @@
+<!-- Uses mappi.lauch with data from a bag file -->
+<launch>
+  <include file="mappi.launch" />
+  <!-- Play from bag -->
+  <node name="bag" pkg="rosbag" type="play"
+    args="--start 180 --duration 23 $(env PWD)/bagfiles/mappi_laser_imu_chair.bag" />
+</launch>
