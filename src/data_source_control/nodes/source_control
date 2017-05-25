@@ -53,8 +53,8 @@ def imu_callback(msg):
    # trans = tfBuffer.lookup_transform('base_link', 'map', rospy.Time.now(), rospy.Duration(1.0))
 
    # adjust for acceleration due to gravity here to simplify operations later
-   _imu_pva[2] = [msg.acceleration.x, msg.acceleration.y,
-      msg.acceleration.z - GRAV_ACCELERATION]
+   _imu_pva[2] = [msg.linear_acceleration.x, msg.linear_acceleration.y,
+      msg.linear_acceleration.z - GRAV_ACCELERATION]
 
 def lidar_callback(msg):
    _lidar_pva[0] = [msg.position.x, msg.position.y, msg.position.z]
@@ -62,8 +62,8 @@ def lidar_callback(msg):
    _lidar_pva[2] = [msg.acceleration.x, msg.acceleration.y, msg.acceleration.z]
 
 def control():
-   sub_imu = rospy.Subscriber('bno005_serial_node', Imu, imu_callback)
-   sub_lidar = rospy.Subscriber('lidar_pva_node', PositionVelocityAcceleration, lidar_callback)
+   sub_imu = rospy.Subscriber('imu', Imu, imu_callback)
+   sub_lidar = rospy.Subscriber('slam_pva', PositionVelocityAcceleration, lidar_callback)
    rospy.init_node('source_control', anonymous=True)
    rate = rospy.Rate(int(FREQUENCY))
    # published transformation from odom to dead_reckoning

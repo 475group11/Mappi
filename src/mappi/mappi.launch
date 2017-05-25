@@ -11,18 +11,23 @@ in the base_link frame.
   <param name="robot_description" textfile="Mappi.urdf" />
   <!-- base_link and laser are the same (not needed with LaserScan data
    in the base_link frame) -->
-  <node name="lidar_transform" pkg="tf2_ros" type="static_transform_publisher"
+  <node name="laser_transform" pkg="tf2_ros" type="static_transform_publisher"
     args="0 0 0 0 0 0 1 /base_link /laser" />
 
-  <!-- Temporary fixed transform from odom to base_link, to be replaced by
-  another node -->
-  <node name="temp_dead_reckoning" pkg="tf2_ros" type="static_transform_publisher"
-    args="0 0 0 0 0 0 1 /odom /dead_reckoning" />
+  <!-- Transform from odom to dead_reckoning by occasional dead reckoning -->
+  <node name="dead_reckoning" pkg="data_source_control" type="source_control" />
 
   <!-- Transfrom from dead_reckoning to base_link defined by IMU -->
-  <node name="laser_transform" pkg="mappi_imu_transform" type="transform_node">
+  <node name="imu_transform" pkg="mappi_imu_transform" type="transform_node">
     <param name="parent_frame" value="dead_reckoning" />
     <param name="child_frame" value="base_link" />
+  </node>
+
+  <!-- Position/velocity/acceleration from SLAM -->
+  <node name="pva_calculator" pkg="mappi_velocity_acceleration_calculator" type="velocity_acceleration_node">
+    <param name="parent_frame" value="map" />
+    <param name="child_frame" value="base_link" />
+    <param name="pva_topic" value="slam_pva" />
   </node>
 
   <!-- SLAM -->
