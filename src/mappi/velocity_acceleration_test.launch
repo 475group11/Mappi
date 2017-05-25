@@ -4,7 +4,7 @@
   <param name="robot_description" textfile="Mappi.urdf" />
 
   <!-- Transfrom from base_link to laser defined by IMU -->
-  <node name="laser_transform" pkg="mappi_inverse_laser_transform" type="transform_node" />
+  <node name="laser_transform" pkg="mappi_imu_transform" type="transform_node" />
   <!-- Position/velocity/acceleration from SLAM -->
   <node name="va_calculator" pkg="mappi_velocity_acceleration_calculator" type="velocity_acceleration_node">
     <param name="parent_frame" value="map" />

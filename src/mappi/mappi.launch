@@ -20,7 +20,7 @@ in the base_link frame.
     args="0 0 0 0 0 0 1 /odom /dead_reckoning" />
 
   <!-- Transfrom from dead_reckoning to base_link defined by IMU -->
-  <node name="laser_transform" pkg="mappi_inverse_laser_transform" type="transform_node">
+  <node name="laser_transform" pkg="mappi_imu_transform" type="transform_node">
     <param name="parent_frame" value="dead_reckoning" />
     <param name="child_frame" value="base_link" />
   </node>
