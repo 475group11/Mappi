@@ -51,16 +51,25 @@ def lidar_callback(msg):
    _lidar_pva[2] = [msg.acceleration.x, msg.acceleration.y, msg.acceleration.z]
 
 def control():
-   pub = tf2_ros.TransformBroadcaster()
    sub_imu = rospy.Subscriber('bno005_serial_node', Imu, imu_callback)
    sub_lidar = rospy.Subscriber('lidar_pva_node', PositionVelocityAcceleration, lidar_callback)
    rospy.init_node('source_control', anonymous=True)
    rate = rospy.Rate(int(FREQUENCY))
+   
+   # listened transform from base_link to map
+   tfBuffer = tf2_ros.Buffer()
+   listener = tf2_ros.TransformListener(tfBuffer)
+   # published transformation from odom to dead_reckoning
+   pub = tf2_ros.TransformBroadcaster()
    dead_reckoning_active = False  # initialize without dead_reckoning
    while not rospy.is_shutdown():
+      # determine if dead_reckoning should begin / stop / continue
       dead_reckoning_active = dead_reckoning(dead_reckoning_active)
-      update_imu_pv(dead_reckoning_active)
       rospy.loginfo(dead_reckoning_active)
+      # get the transformation between the base link (where the IMU is located) and the map
+      trans = tfBuffer.lookup_transform('base_link', 'map', rospy.Time.now(), rospy.Duration(1.0))
+      update_imu_pv(dead_reckoning_active, trans)
+      # set up the transform from odom to dead_reckoning
       t = geometry_msgs.msg.TransformStamped()
       
       t.header.stamp = rospy.Time.now()
