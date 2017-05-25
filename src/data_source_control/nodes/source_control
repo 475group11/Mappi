@@ -84,6 +84,9 @@ def control():
       t.transform.translation.y = _imu_pva[0][1]
       t.transform.translation.z = _imu_pva[0][2]
       # this assumes that other transform values (orientation) default to zero
+      # Set the Z field of the quaternion to 1 (giving it a valid vector)
+      # (rotation will still be zero)
+      t.transform.rotation.z = 1
 
       pub.sendTransform(t)
       rate.sleep()
