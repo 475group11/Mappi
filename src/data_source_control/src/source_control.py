@@ -40,7 +40,12 @@ def dead_reckoning(dead_reckoning_active):
          return True
          
 def imu_callback(msg):
-   # TODO: transform IMU from base to map frame
+   # # listener transform from base_link to map
+   # tfBuffer = tf2_ros.Buffer()
+   # listener = tf2_ros.TransformListener(tfBuffer)
+   # # get the transformation between the base link (where the IMU is located) and the map
+   # trans = tfBuffer.lookup_transform('base_link', 'map', rospy.Time.now(), rospy.Duration(1.0))
+   
    # adjust for acceleration due to gravity here to simplify operations later
    _imu_pva[2] = [msg.acceleration.x, msg.acceleration.y,
       msg.acceleration.z - GRAV_ACCELERATION]
@@ -55,10 +60,6 @@ def control():
    sub_lidar = rospy.Subscriber('lidar_pva_node', PositionVelocityAcceleration, lidar_callback)
    rospy.init_node('source_control', anonymous=True)
    rate = rospy.Rate(int(FREQUENCY))
-   
-   # listened transform from base_link to map
-   tfBuffer = tf2_ros.Buffer()
-   listener = tf2_ros.TransformListener(tfBuffer)
    # published transformation from odom to dead_reckoning
    pub = tf2_ros.TransformBroadcaster()
    dead_reckoning_active = False  # initialize without dead_reckoning
@@ -66,9 +67,7 @@ def control():
       # determine if dead_reckoning should begin / stop / continue
       dead_reckoning_active = dead_reckoning(dead_reckoning_active)
       rospy.loginfo(dead_reckoning_active)
-      # get the transformation between the base link (where the IMU is located) and the map
-      trans = tfBuffer.lookup_transform('base_link', 'map', rospy.Time.now(), rospy.Duration(1.0))
-      update_imu_pv(dead_reckoning_active, trans)
+      update_imu_pv(dead_reckoning_active)
       # set up the transform from odom to dead_reckoning
       t = geometry_msgs.msg.TransformStamped()
       
