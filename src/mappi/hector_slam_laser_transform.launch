@@ -3,7 +3,7 @@
   <param name="robot_description" textfile="Mappi.urdf" />
 
   <!-- Transfrom from base_link to laser defined by IMU -->
-  <node name="laser_transform" pkg="mappi_inverse_laser_transform" type="transform_node" />
+  <node name="laser_transform" pkg="mappi_imu_transform" type="transform_node" />
 
   <!-- Play from bag -->
   <node name="bag" pkg="rosbag" type="play"

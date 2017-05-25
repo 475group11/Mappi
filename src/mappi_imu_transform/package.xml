@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>mappi_inverse_laser_transform</name>
+  <name>mappi_imu_transform</name>
   <version>0.0.0</version>
   <description>Uses yaw (orientation) data from an IMU to publish an inverse
     transform that makes a frame appear to have no yaw motion</description>
@@ -20,7 +20,7 @@
   <!-- Url tags are optional, but multiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/mappi_inverse_laser_transform</url> -->
+  <!-- <url type="website">http://wiki.ros.org/mappi_imu_transform</url> -->
 
 
   <!-- Author tags are optional, multiple are allowed, one per tag -->
