@@ -20,7 +20,7 @@ _lidar_pva = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
 def update_imu_pv(dead_reckoning_on):
    if dead_reckoning_on:  # approximate current location based on previous vectors
       for val in range(3):
-         _imu_pva[0][val] = _imu_pva[0][val] + 
+         _imu_pva[0][val] = _imu_pva[0][val] + \
             (1.0/FREQUENCY)*_imu_pva[1][val] + (1.0/FREQUENCY)**2*_imu_pva[2][val]
       for val in range(3):
          _imu_pva[1][val] = _imu_pva[1][val] + (1.0/FREQUENCY)*_imu_pva[2][val]
@@ -31,7 +31,10 @@ def update_imu_pv(dead_reckoning_on):
 def dead_reckoning(dead_reckoning_active):
    imu_a_mag = math.sqrt(_imu_pva[2][0]**2 + _imu_pva[2][1]**2 + _imu_pva[2][2]**2)
    lidar_a_mag = math.sqrt(_lidar_pva[2][0]**2 + _lidar_pva[2][1]**2 + _lidar_pva[2][2]**2)
-   ratio = lidar_a_mag / imu_a_mag
+   if imu_a_mag == 0.0:
+      ratio = 0.0
+   else:
+      ratio = lidar_a_mag / imu_a_mag
    if dead_reckoning_active:
       if ratio > THRESHOLD_DEACTIVATE:
          return False
@@ -86,5 +89,5 @@ def control():
 if __name__ == '__main__':
     try:
         control()
-    except rospy.ROSInterrruptException:
+    except rospy.ROSInterruptException:
         pass
