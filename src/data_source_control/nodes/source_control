@@ -3,6 +3,7 @@
 import math
 import rospy
 import tf2_ros
+from geometry_msgs.msg import TransformStamped
 from sensor_msgs.msg import Imu
 from mappi_msgs.msg import PositionVelocityAcceleration
 
@@ -41,14 +42,16 @@ def dead_reckoning(dead_reckoning_active):
    else:
       if ratio > THRESHOLD_ACTIVATE:
          return True
-         
+   # Maintain current state
+   return dead_reckoning_active
+
 def imu_callback(msg):
    # # listener transform from base_link to map
    # tfBuffer = tf2_ros.Buffer()
    # listener = tf2_ros.TransformListener(tfBuffer)
    # # get the transformation between the base link (where the IMU is located) and the map
    # trans = tfBuffer.lookup_transform('base_link', 'map', rospy.Time.now(), rospy.Duration(1.0))
-   
+
    # adjust for acceleration due to gravity here to simplify operations later
    _imu_pva[2] = [msg.acceleration.x, msg.acceleration.y,
       msg.acceleration.z - GRAV_ACCELERATION]
@@ -72,8 +75,8 @@ def control():
       rospy.loginfo(dead_reckoning_active)
       update_imu_pv(dead_reckoning_active)
       # set up the transform from odom to dead_reckoning
-      t = geometry_msgs.msg.TransformStamped()
-      
+      t = TransformStamped()
+
       t.header.stamp = rospy.Time.now()
       t.header.frame_id = "odom"
       t.child_frame_id = "dead_reckoning"
@@ -81,9 +84,8 @@ def control():
       t.transform.translation.y = _imu_pva[0][1]
       t.transform.translation.z = _imu_pva[0][2]
       # this assumes that other transform values (orientation) default to zero
-      
-      pub.sendTransform(t)                  
-      rate.spin()  # unsure if this is needed
+
+      pub.sendTransform(t)
       rate.sleep()
 
 if __name__ == '__main__':
