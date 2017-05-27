@@ -26,6 +26,7 @@ int main(int argc, char** argv) {
 
     const auto imu_callback = [broadcaster, parent_frame, child_frame]
         (const sensor_msgs::Imu::ConstPtr& imu_data) mutable {
+        ROS_DEBUG("Got IMU message");
         // Publish orientation
         geometry_msgs::TransformStamped transform;
         transform.header.stamp = imu_data->header.stamp;
