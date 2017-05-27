@@ -39,16 +39,16 @@ Times in mappi_lidar_imu_chair.bag:
 
 Times in mappi_lidar_imu_many_areas.bag:
 
-CSE 003E: before  3:00
-CSE 003: 3:00-5:00
-CSE basement hallways: 5:00-5:40
-CSE elevator: 6:00-6:20
-CSE level 4 hallways: 6:20-11:10
-CSE elevator: 11:20-11:45
-CSE level 6 hallways: 11:50-16:45
-CSE elevator: 17:40-18:10
-CSE basement hallways: 18:35-19:40
-CSE elevator (the other one): 19:45-20:10
-EEB lower basement: 20:10-24:00
-EEB elevator: 24:15-24:40
-EEB basement: 24:40-29:30
+CSE 003E: before 180 seconds
+CSE 003: 180-300 seconds
+CSE basement hallways: 300-340 seconds
+CSE elevator: 360-380 seconds
+CSE level 4 hallways: 380-670 seconds
+CSE elevator: 680-685 seconds
+CSE level 6 hallways: 710-1005 seconds
+CSE elevator: 1060-1090 seconds
+CSE basement hallways: 1115-1180 seconds
+CSE elevator (the other one): 1185-1210 seconds
+EEB lower basement: 1210-1440 seconds
+EEB elevator: 1455-1480 seconds
+EEB basement: 1480-1770 seconds
