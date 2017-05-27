@@ -60,8 +60,8 @@ int main(int argc, char** argv) {
         (const ros::TimerEvent& event) {
         const auto interval = event.current_real - event.last_real;
         try {
-            // Look up latest transform
-            const geometry_msgs::TransformStamped transform_stamped = buffer.lookupTransform(child_frame, parent_frame, ros::Time(0));
+            // Look up latest transform with a 5-second timeout
+            const geometry_msgs::TransformStamped transform_stamped = buffer.lookupTransform(child_frame, parent_frame, ros::Time(0), ros::Duration(5));
             const geometry_msgs::Vector3 position = std::move(transform_stamped.transform.translation);
 
             if (last_position) {

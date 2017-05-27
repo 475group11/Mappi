@@ -8,7 +8,7 @@ from sensor_msgs.msg import Imu
 from mappi_msgs.msg import PositionVelocityAcceleration
 
 # read-only fields
-FREQUENCY = 10.0  # refresh frequency of the system
+FREQUENCY = 50.0  # refresh frequency of the system
 GRAV_ACCELERATION = 9.81
 THRESHOLD_ACTIVATE = 10.0  # ratio of lidar acc to imu acc to activate dr
 THRESHOLD_DEACTIVATE = 10.0  # ratio of " to " to deactivate dr

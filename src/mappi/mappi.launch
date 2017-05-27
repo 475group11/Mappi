@@ -15,9 +15,11 @@ in the base_link frame.
     args="0 0 0 0 0 0 1 /base_link /laser" />
 
   <!-- Transform from odom to dead_reckoning by occasional dead reckoning -->
-  <node name="dead_reckoning" pkg="data_source_control" type="source_control" />
+  <!-- <node name="dead_reckoning" pkg="data_source_control" type="source_control" /> -->
+  <node name="temp_dead_reckoning" pkg="tf2_ros" type="static_transform_publisher"
+    args="0 0 0 0 0 0 1 /odom /dead_reckoning" />
 
-  <!-- Transfrom from dead_reckoning to base_link defined by IMU -->
+  <!-- Transform from dead_reckoning to base_link defined by IMU -->
   <node name="imu_transform" pkg="mappi_imu_transform" type="transform_node">
     <param name="parent_frame" value="dead_reckoning" />
     <param name="child_frame" value="base_link" />
