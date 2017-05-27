@@ -26,9 +26,10 @@ int main(int argc, char** argv) {
 
     const auto imu_callback = [broadcaster, parent_frame, child_frame]
         (const sensor_msgs::Imu::ConstPtr& imu_data) mutable {
+        ROS_DEBUG("Got IMU message");
         // Publish orientation
         geometry_msgs::TransformStamped transform;
-        transform.header.stamp = ros::Time::now();
+        transform.header.stamp = imu_data->header.stamp;
         transform.header.frame_id = parent_frame;
         transform.child_frame_id = child_frame;
         // Transform: no translation, orientation equal to the IMU orientation
