@@ -52,3 +52,10 @@ CSE elevator (the other one): 1185-1210 seconds
 EEB lower basement: 1210-1440 seconds
 EEB elevator: 1455-1480 seconds
 EEB basement: 1480-1770 seconds
+
+Times in mappi_lidar_imu_rooms.bag:
+
+EEB 031: 225-295 seconds
+EEB 045: 400-470 seconds
+EEB 066A (bathroom): 555-595 seconds
+CSE 021: 653-680 seconds
