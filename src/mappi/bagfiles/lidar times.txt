@@ -59,3 +59,12 @@ EEB 031: 225-295 seconds
 EEB 045: 400-470 seconds
 EEB 066A (bathroom): 555-595 seconds
 CSE 021: 653-680 seconds
+
+Times in mappi_laser_imu_cse_678.bag:
+
+CSE 678 perimeter Kevin: 280-318 seconds
+CSE 678 center Kevin (midline): 350-380
+CSE 678 center Rodney: 430-455
+CSE 678 perimeter Rodney: 465-500
+CSE 678 door open Rodney: 525-560
+CSE 678 door open and door blinds open (2 loops, second slower) Rodney: 608-680
