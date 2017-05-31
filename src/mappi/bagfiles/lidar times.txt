@@ -68,3 +68,14 @@ CSE 678 center Rodney: 430-455
 CSE 678 perimeter Rodney: 465-500
 CSE 678 door open Rodney: 525-560
 CSE 678 door open and door blinds open (2 loops, second slower) Rodney: 608-680
+
+Times in mappi_laser_imu_ee_052.bag:
+
+EEB 052
+Door open:
+600-667 seconds
+1020-1097 seconds
+
+Door closed:
+750-831 seconds
+885-957 seconds
